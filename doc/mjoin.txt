@@ -1,0 +1,58 @@
+MJOIN(1)		    General Commands Manual		      MJOIN(1)
+
+NAME
+     mjoin - Performs a relational join operation on two or more files
+
+SYNOPSIS
+     mjoin [-d delimiter] [-f field] [-j join-type] [-s | -S] file file [...]
+     mjoin -v
+
+DESCRIPTION
+     The mjoin provides a convenient wrapper around the standard join(1)
+     utility, allowing joining of two or more files with optional sorting of
+     the input data.
+
+     The options are as follows:
+
+     -d delimiter
+	     Use the specified single character delimiter as the field
+	     delimiter.	 The default delimiter is a comma.
+
+     -f field
+	     Join all files on the specified field number.  The default join
+	     field is the first field in each file.
+
+     -j join-type
+	     Perform a relational join of the specified type.  The join-type
+	     option argument must be one of inner, left, right, or full.  The
+	     default is to perform a full outer join.
+
+     -s	     Sort the input data on the join field.  The default is to assume
+	     that the data is already lexicographically sorted on the
+	     appropriate field.
+
+     -S	     Auto-detect whether sorting is needed.  This will invoke sort(1)
+	     with its -C option on each input file to detect unsorted data.
+	     The data will then be sorted appropriately if needed.  This means
+	     possible calling sort(1) twice for each input file.
+
+ENVIRONMENT
+     mjoin uses the following environment variables:
+
+     TMPDIR  Directory in which to create temporary files.  This variable is
+	     used by mktemp which will revert to use /tmp if the variable is
+	     not set.
+
+EXAMPLES
+     To be written.
+
+SEE ALSO
+     join(1), mktemp(1), sort(1)
+
+AUTHORS
+     Andreas Kusalananda Kahari <andreas.kahari@nbis.se>
+
+CAVEATS
+     To be written.
+
+Unix				October 6, 2018				  Unix

@@ -1,0 +1,80 @@
+.Dd $Mdocdate$
+.Dt MJOIN 1
+.Os
+.Sh NAME
+.Nm mjoin
+.Nd Performs a relational join operation on two or more files
+.Sh SYNOPSIS
+.Nm
+.Op Fl d Ar delimiter
+.Op Fl f Ar field
+.Op Fl j Ar join-type
+.Op Fl s | Fl S
+.Ar file file Op Ar ...
+.Nm
+.Fl v
+.Sh DESCRIPTION
+The
+.Nm
+provides a convenient wrapper around the standard
+.Xr join 1
+utility, allowing joining of two or more files with optional sorting of
+the input data.
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl d Ar delimiter
+Use the specified single character delimiter as the field delimiter.
+The default delimiter is a comma.
+.It Fl f Ar field
+Join all files on the specified field number.
+The default join field is the first field in each file.
+.It Fl j Ar join-type
+Perform a relational join of the specified type.
+The
+.Ar join-type
+option argument must be one of
+.Ar inner ,
+.Ar left ,
+.Ar right ,
+or
+.Ar full .
+The default is to perform a full outer join.
+.It Fl s
+Sort the input data on the join field.
+The default is to assume that the data is already lexicographically
+sorted on the appropriate field.
+.It Fl S
+Auto-detect whether sorting is needed.
+This will invoke
+.Xr sort 1
+with its
+.Fl C
+option on each input file to detect unsorted data.
+The data will then be sorted appropriately if needed.
+This means possible calling
+.Xr sort 1
+twice for each input file.
+.El
+.Sh ENVIRONMENT
+.Nm
+uses the following environment variables:
+.Bl -tag -width Ds
+.It Ev TMPDIR
+Directory in which to create temporary files.
+This variable is used by
+.Cm mktemp
+which will revert to use
+.Pa /tmp
+if the variable is not set.
+.El
+.Sh EXAMPLES
+To be written.
+.Sh SEE ALSO
+.Xr join 1 ,
+.Xr mktemp 1 ,
+.Xr sort 1
+.Sh AUTHORS
+.An Andreas Kusalananda K\[:a]h\[:a]ri Aq Mt andreas.kahari@nbis.se
+.Sh CAVEATS
+To be written.

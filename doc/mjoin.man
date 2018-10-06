@@ -1,0 +1,87 @@
+.TH "MJOIN" "1" "October 6, 2018" "Unix" "General Commands Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBmjoin\fR
+\- Performs a relational join operation on two or more files
+.SH "SYNOPSIS"
+.HP 6n
+\fBmjoin\fR
+[\fB\-d\fR\ \fIdelimiter\fR]
+[\fB\-f\fR\ \fIfield\fR]
+[\fB\-j\fR\ \fIjoin-type\fR]
+[\fB\-s\fR\ |\ \fB\-S\fR]
+\fIfile\ file\fR\ [\fI...\fR]
+.br
+.PD 0
+.HP 6n
+\fBmjoin\fR
+\fB\-v\fR
+.PD
+.SH "DESCRIPTION"
+The
+\fBmjoin\fR
+provides a convenient wrapper around the standard
+join(1)
+utility, allowing joining of two or more files with optional sorting of
+the input data.
+.PP
+The options are as follows:
+.TP 8n
+\fB\-d\fR \fIdelimiter\fR
+Use the specified single character delimiter as the field delimiter.
+The default delimiter is a comma.
+.TP 8n
+\fB\-f\fR \fIfield\fR
+Join all files on the specified field number.
+The default join field is the first field in each file.
+.TP 8n
+\fB\-j\fR \fIjoin-type\fR
+Perform a relational join of the specified type.
+The
+\fIjoin-type\fR
+option argument must be one of
+\fIinner\fR,
+\fIleft\fR,
+\fIright\fR,
+or
+\fIfull\fR.
+The default is to perform a full outer join.
+.TP 8n
+\fB\-s\fR
+Sort the input data on the join field.
+The default is to assume that the data is already lexicographically
+sorted on the appropriate field.
+.TP 8n
+\fB\-S\fR
+Auto-detect whether sorting is needed.
+This will invoke
+sort(1)
+with its
+\fB\-C\fR
+option on each input file to detect unsorted data.
+The data will then be sorted appropriately if needed.
+This means possible calling
+sort(1)
+twice for each input file.
+.SH "ENVIRONMENT"
+\fBmjoin\fR
+uses the following environment variables:
+.TP 8n
+\fRTMPDIR\fR
+Directory in which to create temporary files.
+This variable is used by
+\fBmktemp\fR
+which will revert to use
+\fI/tmp\fR
+if the variable is not set.
+.SH "EXAMPLES"
+To be written.
+.SH "SEE ALSO"
+join(1),
+mktemp(1),
+sort(1)
+.SH "AUTHORS"
+Andreas Kusalananda K\[:a]h\[:a]ri <\fIandreas.kahari@nbis.se\fR>
+.SH "CAVEATS"
+To be written.
