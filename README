@@ -55,12 +55,12 @@ Tested on:
 
     This script generalises the standard UNIX join utility, making it
     possible to do relational joins (inner, left, right, and full outer
-    joins) on two or more possibly unsorted files.
+    joins) on two or more (possibly unsorted) files.
 
     The data is assumed to be delimited on commas (use "-d" to specify
-    an alternative delimiter) and will joined on the first field (or on
-    the field specified with "-f").  The input is furthermore assumed to
-    be sorted on the join field, but sorting can be requested with "-s"
-    (or "-S" for auto-detection of unsorted data).
+    an alternative delimiter) and will be joined on the first field (or
+    on the field specified with "-f").  The input is furthermore assumed
+    to be sorted on the join field, but sorting can be requested with
+    "-s" (or "-S" for auto-detection of unsorted data).
 
     See "man 1 mjoin" after installation.
