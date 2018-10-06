@@ -32,14 +32,14 @@ while getopts 'd:f:j:sS' opt; do
                 left)  left='-a1'; right=''    ;;
                 right) left=''   ; right='-a2' ;;
                 full)  left='-a1'; right='-a2' ;;
-                *) printf 'unknown join type "%s",\n' "$OPTARG" >&2
-                   echo 'expected one of inner, left, right or full' >&2
+                *) printf 'Unknown join type "%s",\n' "$OPTARG" >&2
+                   echo 'Expected one of inner, left, right, or full' >&2
                    exit 1
             esac ;;
         s) do_sort=1
            do_auto_sort=0 ;;
         S) do_auto_sort=1 ;;
-        *) echo 'error in command line parsing' >&2
+        *) echo 'Error in command line parsing' >&2
            exit 1
     esac
 done
@@ -48,7 +48,7 @@ shift "$(( OPTIND - 1 ))"
 
 # Sanity check
 if [ "$#" -lt 2 ]; then
-    echo 'require at least two files' >&2
+    echo 'Expected at least two files' >&2
     exit 1
 fi
 
