@@ -47,12 +47,17 @@ tmpfile=$(mktemp) # Temporary file holding a previous result
 # Remove temporary files on exit
 trap 'rm -f "$result" "$tmpfile"' EXIT
 
-# Join the first two files
+# Sort the first file if needed
 if [ "$do_sort" -eq 1 ]; then
     sort -t "$delim" -k"$field,$field" -o "$tmpfile" "$1"
-    sort -t "$delim" -k"$field,$field"               "$2"
 else
-    cat "$1" >"$tmpfile"
+    cp "$1" "$tmpfile"
+fi
+
+# Join the first two files, sorting the second file if needed
+if [ "$do_sort" -eq 1 ]; then
+    sort -t "$delim" -k"$field,$field" "$2"
+else
     cat "$2"
 fi |
 gjoin -t "$delim" -j "$field" -o auto \
