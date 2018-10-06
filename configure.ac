@@ -54,4 +54,5 @@ AS_IF([test -z "$PAX"],
 
 AC_CONFIG_FILES([Makefile src/Makefile doc/Makefile])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])
+AC_CONFIG_FILES([src/mjoin], [chmod +x src/mjoin])
 AC_OUTPUT
