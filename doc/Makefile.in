@@ -231,13 +231,15 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-dist_man1_MANS = shell.man
-dist_doc_DATA = shell.txt
-EXTRA_DIST = shell.mdoc
-DISTCLEANFILES = shell.man shell.txt
+dist_man1_MANS = shell.man mjoin.man
+dist_doc_DATA = shell.txt mjoin.txt
+EXTRA_DIST = shell.mdoc mjoin.mdoc
+DISTCLEANFILES = $(dist_man1_MANS) $(dist_doc_DATA)
+@BUILD_MANUALS_TRUE@SUFFIXES = .mdoc .man .txt
 all: all-am
 
 .SUFFIXES:
+.SUFFIXES: .mdoc .man .txt
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -493,16 +495,15 @@ uninstall-man: uninstall-man1
 .PRECIOUS: Makefile
 
 
+@BUILD_MANUALS_TRUE@.mdoc.man:
+@BUILD_MANUALS_TRUE@	$(MANDOC) -T man -I os=Unix $< >$@
+
+@BUILD_MANUALS_TRUE@.mdoc.txt:
+@BUILD_MANUALS_TRUE@	$(MANDOC) -T ascii -I os=Unix $< | $(COL) -b >$@
+
 @BUILD_MANUALS_FALSE@$(dist_man1_MANS) $(dist_doc_DATA):
 @BUILD_MANUALS_FALSE@	@echo 'You lack the required utilities. Can not rebuild manuals' >&2
 @BUILD_MANUALS_FALSE@	@exit 1
-
-@BUILD_MANUALS_TRUE@shell.man:	$(srcdir)/shell.mdoc
-@BUILD_MANUALS_TRUE@	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man || true
-
-@BUILD_MANUALS_TRUE@shell.txt:	$(srcdir)/shell.mdoc
-@BUILD_MANUALS_TRUE@	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | \
-@BUILD_MANUALS_TRUE@	$(COL) -b >shell.txt || true
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
