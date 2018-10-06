@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Default values
-delim=' '   # Delimit fields on spaces
+delim=','   # Delimit fields on commas
 field='1'   # Join on first field
 
 # Do a full outer join by default
