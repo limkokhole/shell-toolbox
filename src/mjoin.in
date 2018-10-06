@@ -1,0 +1,80 @@
+#!/bin/sh
+
+# Default values
+delim=' '   # Delimit fields on spaces
+field='1'   # Join on first field
+
+# Do a full outer join by default
+left='-a1'
+right='-a2'
+
+do_sort=0   # Assume input is sorted
+
+# Override the above defaults with options given to us by the user
+# on the command line.
+while getopts 'd:f:j:s' opt; do
+    case "$opt" in
+        d) delim="$OPTARG" ;;
+        f) field="$OPTARG" ;;
+        j)
+            case "$OPTARG" in
+                inner) left=''   ; right=''    ;;
+                left)  left='-a1'; right=''    ;;
+                right) left=''   ; right='-a2' ;;
+                full)  left='-a1'; right='-a2' ;;
+                *) printf 'unknown join type "%s",\n' "$OPTARG" >&2
+                   echo 'expected one of inner, left, right or full' >&2
+                   exit 1
+            esac ;;
+        s) do_sort=1 ;;
+        *) echo 'error in command line parsing' >&2
+           exit 1
+    esac
+done
+
+shift "$(( OPTIND - 1 ))"
+
+# Sanity check
+if [ "$#" -lt 2 ]; then
+    echo 'require at least two files' >&2
+    exit 1
+fi
+
+# Temporary files
+result=$(mktemp)  # The result of a join
+tmpfile=$(mktemp) # Temporary file holding a previous result
+
+# Remove temporary files on exit
+trap 'rm -f "$result" "$tmpfile"' EXIT
+
+# Join the first two files
+if [ "$do_sort" -eq 1 ]; then
+    sort -t "$delim" -k"$field,$field" -o "$tmpfile" "$1"
+    sort -t "$delim" -k"$field,$field"               "$2" |
+    gjoin -t "$delim" -j "$field" -o auto \
+        ${left:+"$left"} ${right:+"$right"} "$tmpfile" -
+else
+    gjoin -t "$delim" -j "$field" -o auto \
+        ${left:+"$left"} ${right:+"$right"} "$1" "$2"
+fi >"$result"
+
+shift 2
+
+# Loop over the remaining files, adding to the result with each file
+for pathname do
+    mv "$result" "$tmpfile"
+
+    # Note: $tmpfile would already be sorted and the join field is the
+    #       first field in that file.
+
+    if [ "$do_sort" -eq 1 ]; then
+        sort -t "$delim" -k "$field,$field" "$pathname"
+    else
+        cat "$pathname"
+    fi |
+    gjoin -t "$delim" -2 "$field" -o auto \
+        ${left:+"$left"} ${right:+"$right"} "$tmpfile" - >"$result"
+done
+
+# Done, output result
+cat "$result"
