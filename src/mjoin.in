@@ -17,11 +17,12 @@ field='1'   # Join on first field
 left='-a1'
 right='-a2'
 
-do_sort=0   # Assume input is sorted
+do_sort=0       # Assume input is sorted
+do_auto_sort=0  # Don't do auto-detection of unsorted data
 
 # Override the above defaults with options given to us by the user
 # on the command line.
-while getopts 'd:f:j:s' opt; do
+while getopts 'd:f:j:sS' opt; do
     case "$opt" in
         d) delim="$OPTARG" ;;
         f) field="$OPTARG" ;;
@@ -35,7 +36,9 @@ while getopts 'd:f:j:s' opt; do
                    echo 'expected one of inner, left, right or full' >&2
                    exit 1
             esac ;;
-        s) do_sort=1 ;;
+        s) do_sort=1
+           do_auto_sort=0 ;;
+        S) do_auto_sort=1 ;;
         *) echo 'error in command line parsing' >&2
            exit 1
     esac
@@ -56,15 +59,21 @@ tmpfile=$("$MKTEMP") # Temporary file holding a previous result
 # Remove temporary files on exit
 trap 'rm -f "$result" "$tmpfile"' EXIT
 
-# Sort the first file if needed
-if [ "$do_sort" -eq 1 ]; then
+# Sort the first file if requested or needed
+if  [ "$do_sort" -eq 1 ] ||
+    [ "$do_auto_sort" -eq 1 ] &&
+    ! sort -C -t "$delim" -k"$field,$field" "$1"
+then
     sort -t "$delim" -k"$field,$field" -o "$tmpfile" "$1"
 else
     cp "$1" "$tmpfile"
 fi
 
-# Join the first two files, sorting the second file if needed
-if [ "$do_sort" -eq 1 ]; then
+# Join the first two files, sorting the second file if requested or needed
+if  [ "$do_sort" -eq 1 ] ||
+    [ "$do_auto_sort" -eq 1 ] &&
+    ! sort -C -t "$delim" -k"$field,$field" "$2"
+then
     sort -t "$delim" -k"$field,$field" "$2"
 else
     cat "$2"
@@ -81,7 +90,10 @@ for pathname do
     # Note: $tmpfile would already be sorted and the join field is the
     #       first field in that file.
 
-    if [ "$do_sort" -eq 1 ]; then
+    if [ "$do_sort" -eq 1 ] ||
+        [ "$do_auto_sort" -eq 1 ] &&
+        ! sort -C -t "$delim" -k "$field,$field" "$pathname"
+    then
         sort -t "$delim" -k "$field,$field" "$pathname"
     else
         cat "$pathname"
