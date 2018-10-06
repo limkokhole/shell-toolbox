@@ -6,8 +6,8 @@ Useful shell scripts
 
 How to use:
 
-    The scripts are documented with their own manuals.  The same manuals
-    are also available as plain text and Markdown in the "doc" directory
+    The scripts are documented with their own manuals.  The same
+    manuals are also available as plain text in the "doc" directory
     of the source distribution.  These will also be installed in
     "<prefix>/share/doc/shell-toolbox" by default.
 

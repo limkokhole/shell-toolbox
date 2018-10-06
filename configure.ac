@@ -35,15 +35,6 @@ AS_IF([test -n "$MKTEMP"],
 AC_PATH_PROG(MANDOC, [mandoc])
 AC_PATH_PROG(COL, [col])
 AM_CONDITIONAL([BUILD_MANUALS], [test -n "$MANDOC" && test -n "$COL"])
-
-AM_COND_IF([BUILD_MANUALS],
-      [AC_MSG_CHECKING([whether $MANDOC can produce markdown output])
-      AM_CONDITIONAL([BUILD_MANUALS],
-                     ["$MANDOC" -T markdown </dev/null 2>/dev/null])
-      AM_COND_IF([BUILD_MANUALS],
-                 [AC_MSG_RESULT([yes])],
-                 [AC_MSG_RESULT([no])]) ])
-
 AM_COND_IF([BUILD_MANUALS], [],
       [AC_MSG_WARN([col or usable mandoc is missing, manuals can not be rebuilt])])
 
