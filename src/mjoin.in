@@ -50,13 +50,13 @@ trap 'rm -f "$result" "$tmpfile"' EXIT
 # Join the first two files
 if [ "$do_sort" -eq 1 ]; then
     sort -t "$delim" -k"$field,$field" -o "$tmpfile" "$1"
-    sort -t "$delim" -k"$field,$field"               "$2" |
-    gjoin -t "$delim" -j "$field" -o auto \
-        ${left:+"$left"} ${right:+"$right"} "$tmpfile" -
+    sort -t "$delim" -k"$field,$field"               "$2"
 else
-    gjoin -t "$delim" -j "$field" -o auto \
-        ${left:+"$left"} ${right:+"$right"} "$1" "$2"
-fi >"$result"
+    cat "$1" >"$tmpfile"
+    cat "$2"
+fi |
+gjoin -t "$delim" -j "$field" -o auto \
+    ${left:+"$left"} ${right:+"$right"} "$tmpfile" - >"$result"
 
 shift 2
 
