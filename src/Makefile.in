@@ -93,7 +93,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES = shell
+CONFIG_CLEAN_FILES = shell mjoin
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -144,7 +144,8 @@ am__can_run_installinfo = \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
-am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/shell.in
+am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/mjoin.in \
+	$(srcdir)/shell.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -164,6 +165,7 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+JOIN = @JOIN@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LTLIBOBJS = @LTLIBOBJS@
@@ -226,7 +228,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-bin_SCRIPTS = shell
+bin_SCRIPTS = shell mjoin
 CLEANFILES = $(bin_SCRIPTS)
 all: all-am
 
@@ -261,6 +263,8 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
 shell: $(top_builddir)/config.status $(srcdir)/shell.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+mjoin: $(top_builddir)/config.status $(srcdir)/mjoin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 install-binSCRIPTS: $(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
