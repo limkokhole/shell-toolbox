@@ -32,6 +32,7 @@
 
         <prefix>
         |-- bin
+        |   |-- mjoin
         |   `-- shell
         `-- share
             |-- doc
@@ -39,10 +40,11 @@
             |       |-- LICENSE
             |       |-- NEWS
             |       |-- README
-            |       |-- shell.md
+            |       |-- mjoin.txt
             |       `-- shell.txt
             `-- man
                 `-- man1
+                    |-- mjoin.1
                     `-- shell.1
 
     Caveat: If you run "make distclean", the generated manuals, which

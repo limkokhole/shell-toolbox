@@ -18,11 +18,11 @@ How to install:
 Tested on:
 
     FreeBSD 11.1
-    Darwin 17.5.0 (macOS High Sierra)
-    NetBSD 7.1.2
+    macOS 10.14 (Mojave)
+    NetBSD 8.0
     OpenBSD 6.3
     Solaris 11.4-beta
-    Ubuntu 17.10
+    Ubuntu 18.04
 
 
 ------------------------------------------------------------------------
@@ -46,3 +46,21 @@ Tested on:
     contents of an existing directory (using the "-s" flag).
 
     See "man 1 shell" after installation.
+
+
+* mjoin:
+
+    A convenient script for carrying out relational joins on two or more
+    files.
+
+    This script generalises the standard UNIX join utility, making it
+    possible to do relational joins (inner, left, right, and full outer
+    joins) on two or more possibly unsorted files.
+
+    The data is assumed to be delimited on commas (use "-d" to specify
+    an alternative delimiter) and will joined on the first field (or on
+    the field specified with "-f").  The input is furthermore assumed to
+    be sorted on the join field, but sorting can be requested with "-s"
+    (or "-S" for auto-detection of unsorted data).
+
+    See "man 1 mjoin" after installation.
