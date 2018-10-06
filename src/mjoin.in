@@ -1,5 +1,14 @@
 #!/bin/sh
 
+# Part of @PACKAGE_STRING@
+# For bug reports, see "@PACKAGE_BUGREPORT@"
+
+utility_name=mjoin
+
+# Variables set by the configure script:
+MKTEMP="@MKTEMP@"
+JOIN="@JOIN@"
+
 # Default values
 delim=','   # Delimit fields on commas
 field='1'   # Join on first field
@@ -41,8 +50,8 @@ if [ "$#" -lt 2 ]; then
 fi
 
 # Temporary files
-result=$(mktemp)  # The result of a join
-tmpfile=$(mktemp) # Temporary file holding a previous result
+result=$("$MKTEMP")  # The result of a join
+tmpfile=$("$MKTEMP") # Temporary file holding a previous result
 
 # Remove temporary files on exit
 trap 'rm -f "$result" "$tmpfile"' EXIT
@@ -60,7 +69,7 @@ if [ "$do_sort" -eq 1 ]; then
 else
     cat "$2"
 fi |
-gjoin -t "$delim" -j "$field" -o auto \
+"$JOIN" -t "$delim" -j "$field" -o auto \
     ${left:+"$left"} ${right:+"$right"} "$tmpfile" - >"$result"
 
 shift 2
@@ -77,7 +86,7 @@ for pathname do
     else
         cat "$pathname"
     fi |
-    gjoin -t "$delim" -2 "$field" -o auto \
+    "$JOIN" -t "$delim" -2 "$field" -o auto \
         ${left:+"$left"} ${right:+"$right"} "$tmpfile" - >"$result"
 done
 
