@@ -1,5 +1,4 @@
-.\" Automatically generated from an mdoc input file.  Do not edit.
-.TH "SHELL" "1" "July 19, 2018" "Unix" "General Commands Manual"
+.TH "SHELL" "1" "October 6, 2018" "Unix" "General Commands Manual"
 .nh
 .if n .ad l
 .SH "NAME"
@@ -142,7 +141,7 @@ Set to the working directory where the shell is started.
 .TP 8n
 \fRPATH\fR
 Set to the output of
-\(lq\fBgetconf PATH\fR\(rq.
+\(Lq\fBgetconf PATH\fR\(Rq.
 .TP 8n
 \fRPS1\fR
 Set to the string
@@ -166,7 +165,7 @@ Carried over from the parent environment.
 .TP 8n
 \fI/etc/shells\fR
 Used as a source for valid login shells on systems where
-\(lq\fBgetent shells\fR\(rq
+\(Lq\fBgetent shells\fR\(Rq
 does not work.
 .SH "EXAMPLES"
 Start a new shell in a new temporary directory:
@@ -248,7 +247,7 @@ For Solaris, the list of valid login shells is taken from the
 shells(4)
 manual on a vanilla Solaris 11.4 system.
 This is because Solaris lacks
-\(lq\fBgetent shells\fR\(rq
+\(Lq\fBgetent shells\fR\(Rq
 and may also lack the
 \fI/etc/shells\fR
 file.
