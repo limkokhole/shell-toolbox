@@ -8,6 +8,7 @@ Next release
       detection of unsorted data, and subsequent sorting, can also be
       done (although this will slow down the operation of the script
       somewhat).
+    * Manuals in Markdown format are no longer built or distributed.
 
 Older news relates to the "shell" script only.
 

@@ -232,9 +232,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 dist_man1_MANS = shell.man
-dist_doc_DATA = shell.md shell.txt
+dist_doc_DATA = shell.txt
 EXTRA_DIST = shell.mdoc
-DISTCLEANFILES = shell.man shell.md shell.txt
+DISTCLEANFILES = shell.man shell.txt
 all: all-am
 
 .SUFFIXES:
@@ -494,14 +494,11 @@ uninstall-man: uninstall-man1
 
 
 @BUILD_MANUALS_FALSE@$(dist_man1_MANS) $(dist_doc_DATA):
-@BUILD_MANUALS_FALSE@	@echo 'You lack the mandoc utility. Can not rebuild manuals' >&2
+@BUILD_MANUALS_FALSE@	@echo 'You lack the required utilities. Can not rebuild manuals' >&2
 @BUILD_MANUALS_FALSE@	@exit 1
 
 @BUILD_MANUALS_TRUE@shell.man:	$(srcdir)/shell.mdoc
 @BUILD_MANUALS_TRUE@	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man || true
-
-@BUILD_MANUALS_TRUE@shell.md:	$(srcdir)/shell.mdoc
-@BUILD_MANUALS_TRUE@	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md || true
 
 @BUILD_MANUALS_TRUE@shell.txt:	$(srcdir)/shell.mdoc
 @BUILD_MANUALS_TRUE@	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | \

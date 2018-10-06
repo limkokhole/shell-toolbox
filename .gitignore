@@ -6,4 +6,5 @@ config.status
 local.env
 release-checklist.txt
 shell-toolbox-*.tar.gz
+src/mjoin
 src/shell
