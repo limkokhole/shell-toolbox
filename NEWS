@@ -1,3 +1,16 @@
+Next release
+    * New script: mjoin
+      "mjoin" is a script that hopefully makes it easy to perform a
+      relational join operation on two or more files.  The script
+      supports inner, left, right and full outer joins as well as
+      joining on a user-supplied field number and using an arbitrary
+      delimiter.  Sorting of the input is done on request and automatic
+      detection of unsorted data, and subsequent sorting, can also be
+      done (although this will slow down the operation of the script
+      somewhat).
+
+Older news relates to the "shell" script only.
+
 Release 20180719
     * A skeleton directory (to pre-populate the temporary working
       directory with) may be specified by setting the SHELL_SKEL
