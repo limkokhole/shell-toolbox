@@ -84,4 +84,8 @@ sort(1)
 .SH "AUTHORS"
 Andreas Kusalananda K\[:a]h\[:a]ri <\fIandreas.kahari@nbis.se\fR>
 .SH "CAVEATS"
-To be written.
+This utility does not support joining on
+\fIdifferent\fR
+fields in different files.
+The current implementation relies on the presence of GNU
+sort(1).
