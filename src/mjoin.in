@@ -6,8 +6,24 @@
 utility_name=mjoin
 
 # Variables set by the configure script:
+AWK="@AWK@"
 MKTEMP="@MKTEMP@"
 JOIN="@JOIN@"
+HAVE_GNU_JOIN="@HAVE_GNU_JOIN@"
+
+
+do_join () {
+    if [ "$HAVE_GNU_JOIN" = "yes" ]; then
+        # Use the "-o auto" option of GNU join
+        "$JOIN" -o auto "$@"
+    else
+        # Construct the appropriate "-o" option using awk
+        # FIXME: The join(1) on OpenBSD has a bug.
+        # https://marc.info/?l=openbsd-bugs&m=153889973013427&q=raw
+        echo bum >&2
+        exit 1
+    fi
+}
 
 # Default values
 delim=','   # Delimit fields on commas
@@ -78,7 +94,7 @@ then
 else
     cat "$2"
 fi |
-"$JOIN" -t "$delim" -j "$field" -o auto \
+do_join -t "$delim" -j "$field" \
     ${left:+"$left"} ${right:+"$right"} "$tmpfile" - >"$result"
 
 shift 2
@@ -98,7 +114,7 @@ for pathname do
     else
         cat "$pathname"
     fi |
-    "$JOIN" -t "$delim" -2 "$field" -o auto \
+    do_join -t "$delim" -2 "$field" \
         ${left:+"$left"} ${right:+"$right"} "$tmpfile" - >"$result"
 done
 
