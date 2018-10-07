@@ -43,13 +43,15 @@ AC_PATH_PROGS(PAX, [pax cp])
 AS_IF([test -z "$PAX"],
       [AC_MSG_ERROR([Did not find pax nor cp])])
 
-# See if GNU join is available
-AC_CACHE_CHECK([for GNU join], [ac_cv_path_JOIN],
-    [AC_PATH_PROGS_FEATURE_CHECK([JOIN], [join gjoin gnujoin],
-        ["$ac_path_JOIN" --version 2>/dev/null | grep -Fq coreutils &&
-         ac_cv_path_JOIN="$ac_path_JOIN" && ac_path_JOIN_found=:],
-        [AC_MSG_ERROR([Did not find GNU join])]) ])
-AC_SUBST([JOIN], [$ac_cv_path_JOIN])
+# See if join is available.  Check for GNU join first.
+AC_PATH_PROGS(JOIN, [join gnujoin join])
+AS_IF([test -z "$JOIN"],
+      [AC_MSG_ERROR([no usuable join found])])
+AC_MSG_CHECKING([whether $JOIN is GNU join])
+AS_IF(["$JOIN" --version 2>/dev/null | grep -Fq coreutils],
+      [AC_MSG_RESULT([yes]); HAVE_GNU_JOIN=yes],
+      [AC_MSG_RESULT([no]); HAVE_GNU_JOIN=no])
+AC_SUBST([HAVE_GNU_JOIN])
 
 AC_CONFIG_FILES([Makefile src/Makefile doc/Makefile])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])
